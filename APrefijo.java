@@ -54,7 +54,7 @@ public class APrefijo <E> {
     }
 
 
-    public List<NodoAPrefijo<E>> buscarNodosPorPrefijo(String prefijo) {
+    public List<Contacto> buscarNodosPorPrefijo(String prefijo) {
         List<NodoAPrefijo<E>> resultados = new ArrayList<>();
         NodoAPrefijo<E> actual = raiz;
 

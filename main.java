@@ -62,13 +62,13 @@ public class main {
                         agregarContacto();
                         break;
                     case 2:
-                        buscarContacto();
+                        //buscarContacto();
                         break;
                     case 3:
-                        eliminarContacto();
+                        //eliminarContacto();
                         break;
                     case 4:
-                        mostrarContactos();
+                        //mostrarContactos();
                         break;
                     case 5:
                         System.out.println("Saliendo...");

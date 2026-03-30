@@ -46,9 +46,9 @@ public class Agenda {
 
         contactos.remove(c);
 
-        indice.eliminar(c.getNombre(), c);
-        indice.eliminar(c.getApellido(), c);
-        indice.eliminar(c.getApodo(), c);
+        indice.eliminar(c.getNombre());
+        indice.eliminar(c.getApellido());
+        indice.eliminar(c.getApodo());
 
         return true;
     }
