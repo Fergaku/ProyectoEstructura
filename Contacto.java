@@ -1,0 +1,34 @@
+public class Contacto implements Frecuentable {
+    private String nombre;
+    private String apellido;
+    private String apodo;
+    private String telefono;
+    private int frecuencia;
+    public Contacto(String nombre, String apellido, String apodo, String telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.apodo = apodo;
+        this.telefono = telefono;
+        this.frecuencia = 0;
+    }
+
+    public String getNombre() { return nombre; }
+    public String getApellido() { return apellido; }
+    public String getApodo() { return apodo; }
+    public String getTelefono() { return telefono; }
+    public int getFrecuencia() { return frecuencia; }
+
+    public String toString() {
+        return nombre + " " + apellido + " (" + apodo + ") - " + telefono;
+    }
+    public void incrementarFrecuencia() {
+        frecuencia++;
+    }
+
+    @Override
+    public int obtenerFrecuencia() {
+        return frecuencia;
+    }
+
+    // AGREGAR FUNCION EQUALS PARA COMPARAR CONTACTOS POR NOMBRE, APELLIDO O APODO
+}
