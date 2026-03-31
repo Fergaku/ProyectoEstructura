@@ -11,7 +11,7 @@ public class Contacto implements Frecuentable {
         this.telefono = telefono;
         this.frecuencia = 0;
     }
-
+    // ===== GETTERS Y SETTERS =====
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public String getApodo() { return apodo; }
@@ -21,6 +21,8 @@ public class Contacto implements Frecuentable {
     public String toString() {
         return nombre + " " + apellido + " (" + apodo + ") - " + telefono;
     }
+
+    // ===== FUNCIONES DE FRECUENCIA =====
     public void incrementarFrecuencia() {
         frecuencia++;
     }

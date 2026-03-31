@@ -26,14 +26,30 @@ public class main {
     }
 
     private static String leerTexto(String mensaje) {
-        System.out.print(YELLOW + mensaje + RESET);
+        System.out.print(mensaje);
         String input = sc.nextLine().trim();
         while (input.isEmpty()) {
-            System.out.println(RED + "No puede estar vacío." + RESET);
-            System.out.print(YELLOW + mensaje + RESET);
+            System.out.println("No puede estar vacío.");
+            System.out.print(mensaje);
             input = sc.nextLine().trim();
         }
         return input;
+    }
+
+    private static void limpiarPantalla() {
+        try {
+            new ProcessBuilder("clear").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            for (int i = 0; i < 50; i++) System.out.println();
+        }
+    }
+
+    private static void mostrarAdios() {
+        limpiarPantalla();
+        System.out.println("=================================");
+        System.out.println("=  GRACIAS POR USAR EL SISTEMA  =");
+        System.out.println("=================================");
+        System.out.println();
     }
 
     public static void agregarContacto() {
@@ -82,7 +98,7 @@ public class main {
                         //mostrarContactos();
                         break;
                     case 5:
-                        System.out.println("Saliendo...");
+                        mostrarAdios();
                         break;
                     default:
                         System.out.println("Opción inválida");
