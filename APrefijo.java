@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
 import java.util.Comparator;
+
 public class APrefijo <E> {
     private Map<Character, APrefijo> hijos; // mapa de java
     boolean finNombre;
@@ -27,8 +28,7 @@ public class APrefijo <E> {
         
         for (char c : palabra.toCharArray()) {
             actual.hijos.putIfAbsent(c, new NodoAPrefijo<E>(c));
-            // Nos movemos al nodo hijo
-            actual = (NodoAPrefijo<E>) actual.hijos.get(c);
+            actual = actual.hijos.get(c);
         }
         
         actual.setFin(true); 
@@ -41,24 +41,24 @@ public class APrefijo <E> {
         NodoAPrefijo<E> actual = this.raiz; 
         
         for (char c : palabra.toCharArray()) {
-            actual = (NodoAPrefijo<E>) actual.hijos.get(c);
+            actual = actual.hijos.get(c);
             
             if (actual == null) return new LinkedList<>();
         }
 
-        if (actual.getFin()) {
-            return actual.getLDatos();
-        }
+        if (actual.getFin()) return actual.getLDatos();
         
         return new LinkedList<>();
     }
 
-
-    public List<Contacto> buscarNodosPorPrefijo(String prefijo) {
+    // ================ Funciones Buscar por Prefijo ================
+    public List<NodoAPrefijo<E>> buscarNodosPorPrefijo(String prefijo) {
         List<NodoAPrefijo<E>> resultados = new ArrayList<>();
-        NodoAPrefijo<E> actual = raiz;
 
+        if (prefijo == null || prefijo.isEmpty()) return resultados;
+        NodoAPrefijo<E> actual = raiz;
         prefijo = prefijo.toLowerCase();
+
         for (char c : prefijo.toCharArray()) {
             actual = actual.hijos.get(c);
             if (actual == null) return resultados; 
@@ -69,21 +69,21 @@ public class APrefijo <E> {
     }
 
     public List<E> buscarxPrefijoHeap(String prefijo, Comparator<E> cmp) {
+
+        if (cmp == null) throw new IllegalArgumentException("Comparator no puede ser null");
+
         List<NodoAPrefijo<E>> nodos = buscarNodosPorPrefijo(prefijo);
 
-        // Heap con tamaño suficiente
-        Heap<E> heap = new Heap<E>(1000, false, cmp);
+        if (nodos.isEmpty()) return new ArrayList<>();
+        Heap<E> heap = new Heap<E>(nodos.size() * 10, false, cmp);
 
         ArrayList<E> listaTemp = new ArrayList<>();
 
         for (NodoAPrefijo<E> nodo : nodos) {
             for (E dato : nodo.getLDatos()) {
-
-                // 🔥 IMPORTANTE: aumentar frecuencia
-                if (dato instanceof Frecuentable) {
-                    ((Frecuentable) dato).incrementarFrecuencia();
+                if (dato instanceof Frecuentable frecuentable) {
+                    frecuentable.incrementarFrecuencia();
                 }
-
                 listaTemp.add(dato);
             }
         }
@@ -92,21 +92,25 @@ public class APrefijo <E> {
         // 3. Sacar ordenados
         List<E> resultado = new ArrayList<>();
         while (!heap.estaVacio()) {
-            resultado.add(heap.desencolar());
+            E elemento = heap.desencolar();
+            if (elemento != null) resultado.add(elemento);
         }
         return resultado;
     }
 
     private void recolectarNodosRec(NodoAPrefijo<E> nodo, List<NodoAPrefijo<E>> lista) {
+        if (nodo == null) return;
         if (nodo.getFin()) lista.add(nodo);
         for (NodoAPrefijo<E> hijo : nodo.hijos.values()) {
             recolectarNodosRec(hijo, lista);
         }
     }
 
+    // ================
+    // Funcion Eliminar
     public boolean eliminar(String palabra) {
-    return eliminarRec(raiz, palabra, 0);
-}
+        return eliminarRec(raiz, palabra, 0);
+    }
 
     private boolean eliminarRec(NodoAPrefijo<E> actual, String palabra, int index) {
         if (index == palabra.length()) {

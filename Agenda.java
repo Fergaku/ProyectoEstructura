@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,14 +27,11 @@ public class Agenda {
         indice.insertar(contacto.getApodo(), contacto);
     }
     public List<Contacto> buscar(String prefijo) {
-        List<Contacto> resultados = indice.buscarNodosPorPrefijo(prefijo.toLowerCase());
-
-        for (Contacto c : resultados) {
-            c.incrementarFrecuencia(); 
-        }
-
-        resultados.sort((a, b) -> b.getFrecuencia() - a.getFrecuencia());
-
+        Comparator<Contacto> cmp = (a, b) -> {
+        int freq = Integer.compare(b.getFrecuencia(), a.getFrecuencia());
+        return freq != 0 ? freq : a.getNombre().compareToIgnoreCase(b.getNombre());
+            };
+        List<Contacto> resultados = indice.buscarxPrefijoHeap(prefijo, cmp);
         return resultados;
     }
     
