@@ -25,6 +25,17 @@ public class main {
         }
     }
 
+    private static String leerTexto(String mensaje) {
+        System.out.print(YELLOW + mensaje + RESET);
+        String input = sc.nextLine().trim();
+        while (input.isEmpty()) {
+            System.out.println(RED + "No puede estar vacío." + RESET);
+            System.out.print(YELLOW + mensaje + RESET);
+            input = sc.nextLine().trim();
+        }
+        return input;
+    }
+
     public static void agregarContacto() {
         System.out.println("\n--- Nuevo Contacto ---");
 
