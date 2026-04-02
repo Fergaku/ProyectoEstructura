@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
@@ -52,7 +53,13 @@ public class main {
         System.out.println();
     }
 
+    /*
+    Aca se insertan las funciones del sistema main (agregar, buscar, eliminar, mostrar todos los contactos)
+    Las funciones se conectan con los metodos de los TDAs mencionados.
+    */
     public static void agregarContacto() {
+        limpiarPantalla();
+
         System.out.println("\n--- Nuevo Contacto ---");
 
         System.out.print("Nombre: ");
@@ -74,6 +81,69 @@ public class main {
         System.out.println("Contacto agregado correctamente.");
     }
 
+    public static void buscarContacto() {
+        String prefijo = leerTexto("Ingrese prefijo de busqueda: ");
+        List<Contacto> resultados =  agenda.buscar(prefijo);
+
+        if(resultados.isEmpty()) {
+            System.out.println("No hay contactos con este prefijo.");
+        } else {
+            System.out.println("Hay " + resultados.size() + " contactos:");
+            mostrarTablaContactos(resultados);
+        }
+        
+    }
+
+    public static void mostrarTablaContactos(List<Contacto> contactos) {
+        System.out.println();
+        
+        for (int i = 0; i < contactos.size(); i++) {
+            Contacto c = contactos.get(i);
+            
+            System.out.println((i + 1) + ". " + c.getNombre() + " " + c.getApellido());
+            
+            System.out.println("   Apodo: " + c.getApodo());
+            System.out.println("   Teléfono: " + c.getTelefono());
+            System.out.println("   Búsquedas: " + c.getFrecuencia());
+            
+            System.out.println("   " + "─────────────────────────");
+        }
+        
+        System.out.println();
+    }
+
+    public static void eliminarContacto() {
+        try {
+            String prefijo = leerTexto("Ingrese el nombre del contacto que quiere eliminar: ");
+            agenda.eliminarContacto(prefijo);
+            System.out.println("El contacto " + prefijo + "ha sido eliminado exitosamente.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Debe de ingresar un nombre.");
+        }
+
+    }
+
+    public static void mostrarContactos() {
+        limpiarPantalla();
+        List<Contacto> LContactos = agenda.obtenerTodos();
+
+
+    // Validar si hay contactos
+    if (LContactos.isEmpty()) {
+        System.out.println("No hay contactos registrados.");
+    } else {
+        // Ordenar alfabéticamente por nombre
+        LContactos.sort((a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
+        
+        // Mostrar cantidad total
+        System.out.println("Total: " + LContactos.size() + " contacto(s)");
+        
+        // Mostrar la tabla
+        mostrarTablaContactos(LContactos);
+    }
+    }
+
+
     // TODO: Implementar buscarContacto(), eliminarContacto() y mostrarContactos()
     public static void main(String[] args) {
         try {
@@ -89,13 +159,13 @@ public class main {
                         agregarContacto();
                         break;
                     case 2:
-                        //buscarContacto();
+                        buscarContacto();
                         break;
                     case 3:
-                        //eliminarContacto();
+                        eliminarContacto();
                         break;
                     case 4:
-                        //mostrarContactos();
+                        mostrarContactos();
                         break;
                     case 5:
                         mostrarAdios();
@@ -106,7 +176,7 @@ public class main {
     
             } while (opcion != 5);
         } catch (Exception e) {
-            System.out.println("ERROR! Sorry!");
+            System.out.println("Hubo un error en el sistema. ");
         }
         
     }
