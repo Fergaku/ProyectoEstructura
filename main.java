@@ -12,7 +12,7 @@ public class main {
         System.out.println("4. Mostrar todos");
         System.out.println("5. Salir");
     }
-
+    // =============== Funciones de Lectura y Utilidades ===============
     public static int leerEntero(String mensaje) {
         int num;
         while (true) {
@@ -55,8 +55,9 @@ public class main {
 
     /*
     Aca se insertan las funciones del sistema main (agregar, buscar, eliminar, mostrar todos los contactos)
-    Las funciones se conectan con los metodos de los TDAs mencionados.
+    Las funciones se conectan con los metodos de los TDAs adjuntos (Contacto, APrefijo, Agenda)
     */
+
     public static void agregarContacto() {
         limpiarPantalla();
 
@@ -78,15 +79,16 @@ public class main {
 
         agenda.addContacto(c);
 
-        System.out.println("Contacto agregado correctamente.");
+        System.out.println("Contacto agregado con exito.");
     }
 
     public static void buscarContacto() {
+        limpiarPantalla();
         String prefijo = leerTexto("Ingrese prefijo de busqueda: ");
         List<Contacto> resultados =  agenda.buscar(prefijo);
 
         if(resultados.isEmpty()) {
-            System.out.println("No hay contactos con este prefijo.");
+            System.out.println("No hay contactos con este prefijo!");
         } else {
             System.out.println("Hay " + resultados.size() + " contactos:");
             mostrarTablaContactos(resultados);
@@ -113,12 +115,13 @@ public class main {
     }
 
     public static void eliminarContacto() {
+        limpiarPantalla();
         try {
-            String prefijo = leerTexto("Ingrese el nombre del contacto que quiere eliminar: ");
+            String prefijo = leerTexto("Ingrese el nombre del contacto a eliminar: ");
             agenda.eliminarContacto(prefijo);
-            System.out.println("El contacto " + prefijo + "ha sido eliminado exitosamente.");
+            System.out.println("El contacto " + prefijo + " ha sido eliminado exitosamente.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Debe de ingresar un nombre.");
+            System.out.println("Debe de ingresar un nombre!");
         }
 
     }
@@ -130,7 +133,7 @@ public class main {
 
     // Validar si hay contactos
     if (LContactos.isEmpty()) {
-        System.out.println("No hay contactos registrados.");
+        System.out.println("No hay contactos registrados!");
     } else {
         // Ordenar alfabéticamente por nombre
         LContactos.sort((a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
@@ -147,30 +150,37 @@ public class main {
     public static void main(String[] args) {
         try {
 
-            int opcion;
+            int opcion = 0;
     
             do {
-                mostrarMenu();
-                opcion = leerEntero("Seleccione una opción: ");
-    
-                switch (opcion) {
-                    case 1:
-                        agregarContacto();
-                        break;
-                    case 2:
-                        buscarContacto();
-                        break;
-                    case 3:
-                        eliminarContacto();
-                        break;
-                    case 4:
-                        mostrarContactos();
-                        break;
-                    case 5:
-                        mostrarAdios();
-                        break;
-                    default:
-                        System.out.println("Opción inválida");
+                try {
+
+                    mostrarMenu();
+                    opcion = leerEntero("Seleccione una opción: ");
+        
+                    switch (opcion) {
+                        case 1:
+                            agregarContacto();
+                            break;
+                        case 2:
+                            buscarContacto();
+                            break;
+                        case 3:
+                            eliminarContacto();
+                            break;
+                        case 4:
+                            mostrarContactos();
+                            break;
+                        case 5:
+                            mostrarAdios();
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+                    }
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ingrese un valor numérico.");
+                } catch (Exception e) {
+                    System.out.println("ERROR SORPRESA. Intente de Nuevo.");
                 }
     
             } while (opcion != 5);

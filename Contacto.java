@@ -32,7 +32,7 @@ public class Contacto implements Frecuentable {
         return frecuencia;
     }
 
-    // AGREGAR FUNCION EQUALS PARA COMPARAR CONTACTOS POR NOMBRE, APELLIDO O APODO
+    // ==== FUNCION EQUALS (PARA ELIMINAR CONTACTOS Y BUSQUEDA DE CONTACTOS) ====
     @Override
     public boolean equals(Object contacto_dos) {
         if (this == contacto_dos) return true;

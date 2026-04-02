@@ -19,8 +19,6 @@ public class APrefijo <E> {
     }
 
     
-
-
     public void insertar(String palabra, E dato) {
         if (palabra == null || palabra.isEmpty()) return;
 
@@ -68,6 +66,8 @@ public class APrefijo <E> {
         return resultados;
     }
 
+
+    // ========== FUNCION BUSCAR X PREFIJO CON HEAP ==============
     public List<E> buscarxPrefijoHeap(String prefijo, Comparator<E> cmp) {
 
         if (cmp == null) throw new IllegalArgumentException("Comparator no puede ser null");
@@ -108,6 +108,7 @@ public class APrefijo <E> {
 
     // ================
     // Funcion Eliminar
+    // ================
     public boolean eliminar(String palabra) {
         return eliminarRec(raiz, palabra, 0);
     }
