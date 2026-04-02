@@ -33,4 +33,19 @@ public class Contacto implements Frecuentable {
     }
 
     // AGREGAR FUNCION EQUALS PARA COMPARAR CONTACTOS POR NOMBRE, APELLIDO O APODO
+    @Override
+    public boolean equals(Object contacto_dos) {
+        if (this == contacto_dos) return true;
+        if (contacto_dos == null || !(contacto_dos instanceof Contacto)) return false;
+        
+        Contacto otro = (Contacto) contacto_dos;
+        
+        return nombre.equalsIgnoreCase(otro.nombre) && 
+               apellido.equalsIgnoreCase(otro.apellido);
+    }
+
+    @Override
+    public int hashCode() {
+        return (nombre.toLowerCase() + apellido.toLowerCase()).hashCode();
+    }
 }
