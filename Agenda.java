@@ -6,11 +6,13 @@ import java.util.Set;
 public class Agenda {
     private APrefijo<Contacto> indice;
     private Set<Contacto> contactos;
+
     public Agenda() {
         this.indice = new APrefijo<>();
         this.contactos = new HashSet<>();
     }
 
+    // ====== FUNCIONES DE AGENDA ======
     public void addContacto(Contacto contacto) {
         if (contacto == null) return;
 
@@ -21,17 +23,18 @@ public class Agenda {
 
         contactos.add(contacto);
 
-
-        indice.insertar(contacto.getNombre(), contacto);
-        indice.insertar(contacto.getApellido(), contacto);
-        indice.insertar(contacto.getApodo(), contacto);
+        indice.insertar(contacto.getNombre().toLowerCase(), contacto);
+        indice.insertar(contacto.getApellido().toLowerCase(), contacto);
+        indice.insertar(contacto.getApodo().toLowerCase(), contacto);
     }
     public List<Contacto> buscar(String prefijo) {
+        if (prefijo == null || prefijo.isEmpty()) return new ArrayList<>();
+
         Comparator<Contacto> cmp = (a, b) -> {
         int freq = Integer.compare(b.getFrecuencia(), a.getFrecuencia());
         return freq != 0 ? freq : a.getNombre().compareToIgnoreCase(b.getNombre());
             };
-        List<Contacto> resultados = indice.buscarxPrefijoHeap(prefijo, cmp);
+        List<Contacto> resultados = indice.buscarxPrefijoHeap(prefijo.toLowerCase(), cmp);
         return resultados;
     }
     
@@ -44,9 +47,9 @@ public class Agenda {
 
         contactos.remove(c);
 
-        indice.eliminar(c.getNombre());
-        indice.eliminar(c.getApellido());
-        indice.eliminar(c.getApodo());
+        indice.eliminar(c.getNombre().toLowerCase());
+        indice.eliminar(c.getApellido().toLowerCase());
+        indice.eliminar(c.getApodo().toLowerCase());
 
         return true;
     }
